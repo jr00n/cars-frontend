@@ -1,5 +1,5 @@
 {
-  "name": "CarList Demo FrontEnd",
+  "name": "car-frontend",
   "version": "1.0.0-alpha+1",
   "scripts": {
     "ng": "ng",
