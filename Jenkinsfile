@@ -27,11 +27,13 @@ pipeline{
       }
     }
     */
+    /*
     stage ('code quality'){
       steps{
         sh 'npm run lint'
       }
     }
+    */
     stage ('build') {
       steps{
         sh 'npm run build --prod --build-optimizer'
