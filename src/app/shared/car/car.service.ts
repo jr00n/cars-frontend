@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CarService {
-  public API = '//localhost:8080';
+  public API = '//cars-backend:8080';
   public CAR_API = this.API + '/cars';
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get('//localhost:8080/cool-cars');
+    return this.http.get('//cars-backend:8080/cool-cars');
   }
 
   get(id: string) {
@@ -20,8 +20,9 @@ export class CarService {
   }
 
   save(car: any): Observable<any> {
-    let result: Observable<Object>;
-    if (car['href']) {
+    const HREF = 'href';
+    let result: Observable<object>;
+    if (car[HREF]) {
       result = this.http.put(car.href, car);
     } else {
       result = this.http.post(this.CAR_API, car);

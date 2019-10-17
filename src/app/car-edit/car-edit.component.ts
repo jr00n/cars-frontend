@@ -21,7 +21,8 @@ export class CarEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      const id = params['id'];
+      const IDENTIFIER = 'id';
+      const id = params[IDENTIFIER];
       if (id) {
         this.carService.get(id).subscribe((car: any) => {
           if (car) {

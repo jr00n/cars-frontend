@@ -13,14 +13,8 @@ pipeline{
         '''
       }
     }
+    /* Testen moeten met Selenium Hub gaan werken. Gaan we nog onderzoeken.
     stage ('test'){
-      /*
-      steps{
-        sh '''
-          $(npm bin)/ng test --single-run --browsers Chrome_no_sandbox
-        '''
-      }
-      */
       steps{
         sh '''
           npm test --single-run --browsers Chrome_no_sandbox
@@ -32,6 +26,7 @@ pipeline{
           }
       }
     }
+    */
     stage ('code quality'){
       steps{
         sh 'npm lint'
