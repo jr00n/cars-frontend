@@ -17,7 +17,7 @@ pipeline{
     stage ('test'){
       steps{
         sh '''
-          npm test --single-run --browsers Chrome_no_sandbox
+          $(npm bin)/ng test --single-run --browsers Chrome_no_sandbox
         '''
       }
       post {
@@ -29,7 +29,7 @@ pipeline{
     */
     stage ('code quality'){
       steps{
-        sh '$(npm bin)/ng lint'
+        sh 'npm run lint'
       }
     }
     stage ('build') {
