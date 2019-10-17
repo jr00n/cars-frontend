@@ -1,5 +1,5 @@
 pipeline{
-  agent { label 'jos-nodejs-8' }
+  agent { label 'jos-nodejs-10' }
   stages{
     stage ('checkout'){
       steps{
@@ -27,13 +27,11 @@ pipeline{
       }
     }
     */
-    /*
     stage ('code quality'){
       steps{
         sh 'npm run lint'
       }
     }
-    */
     stage ('build') {
       steps{
         sh 'npm run build --prod --build-optimizer'
