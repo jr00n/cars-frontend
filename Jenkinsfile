@@ -29,12 +29,12 @@ pipeline{
     */
     stage ('code quality'){
       steps{
-        sh 'npm lint'
+        sh '$(npm bin)/ng lint'
       }
     }
     stage ('build') {
       steps{
-        sh 'npm build --prod --build-optimizer'
+        sh 'npm run build --prod --build-optimizer'
       }
     }
     /*
