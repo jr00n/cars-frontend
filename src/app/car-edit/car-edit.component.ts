@@ -27,6 +27,7 @@ export class CarEditComponent implements OnInit, OnDestroy {
         this.carService.get(id).subscribe((car: any) => {
           if (car) {
             this.car = car;
+            this.car.id = id;
             this.car.href = car._links.self.href;
           } else {
             console.log(`Car with id '${id}' not found, returning to list`);
@@ -45,8 +46,8 @@ export class CarEditComponent implements OnInit, OnDestroy {
     this.router.navigate(['/car-list']);
   }
 
-  save(form: NgForm) {
-    this.carService.save(form).subscribe(result => {
+  save() {
+    this.carService.save(this.car).subscribe(result => {
       this.gotoList();
     }, error => console.error(error));
   }

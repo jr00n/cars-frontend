@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CarService {
-  public API = '';
+  public API = '/api';
   public CAR_API = this.API + '/cars';
 
   constructor(private http: HttpClient) { }
@@ -20,10 +20,9 @@ export class CarService {
   }
 
   save(car: any): Observable<any> {
-    const HREF = 'href';
     let result: Observable<object>;
-    if (car[HREF]) {
-      result = this.http.put(car.href, car);
+    if (car.id) {
+      result = this.http.put(this.CAR_API + '/' + car.id, car);
     } else {
       result = this.http.post(this.CAR_API, car);
     }
