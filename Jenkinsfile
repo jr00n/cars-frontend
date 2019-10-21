@@ -9,8 +9,7 @@ pipeline{
     stage ('install modules'){
       steps{
         sh '''
-          npm config get registry
-          npm install --verbose -d 
+          npm install
         '''
       }
     }
