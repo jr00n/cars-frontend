@@ -9,6 +9,7 @@ pipeline{
     stage ('install modules'){
       steps{
         sh '''
+          npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
           npm install
         '''
       }
