@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CarService {
-  public API = '//cars-backend:8080';
+  public API = '';
   public CAR_API = this.API + '/cars';
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get('//cars-backend:8080/cool-cars');
+    return this.http.get(this.API + '/cool-cars');
   }
 
   get(id: string) {
