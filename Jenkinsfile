@@ -35,7 +35,7 @@ pipeline{
     }
     stage ('build') {
       steps{
-        sh 'npm run build --prod --build-optimizer'
+        sh 'npm run prod-build'
       }
     }
     /*
