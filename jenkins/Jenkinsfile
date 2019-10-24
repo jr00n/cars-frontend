@@ -43,7 +43,7 @@ pipeline{
     stage ('Code Quality'){
       steps{
         script {
-          if (fileExists("node_modules") {
+          if (fileExists("node_modules")) {
             sh 'rm -rf node_modules'
           }
         }
@@ -55,7 +55,7 @@ pipeline{
     stage ('Create dist') {
       steps{
         script {
-          if (fileExists("node_modules") {
+          if (fileExists("node_modules")) {
             sh 'rm -rf node_modules'
           }
         }
