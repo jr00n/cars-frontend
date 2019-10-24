@@ -23,7 +23,6 @@ pipeline{
         sh '''
           npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
           npm install --verbose -d
-          npm update
         '''
       }
     }
