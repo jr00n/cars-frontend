@@ -12,7 +12,7 @@ pipeline{
       steps {
         checkout scm
         // stash workspace
-				stash(name: 'ws', includes: '**', excludes: '**/.git/**')
+				stash(name: 'ws', includes: '**', excludes: '**/.git/**, node_modules')
       }
     }
     stage ('Install Modules'){
