@@ -76,7 +76,7 @@ pipeline{
             // om dat Jekins bepaald wanneer er gedeloyed gaat worden en niet de trigger.
 
             def fromYAML = openshift.create( readFile('openshift/cars-frontend-o.yaml'))
-            echo "Created objects from YAML file: ${fromJSON.names()}"
+            echo "Created objects from YAML file: ${fromYAML.names()}"
           }
         }
       }          
