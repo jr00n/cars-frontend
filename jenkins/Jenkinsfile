@@ -81,6 +81,7 @@ pipeline{
         }
       }          
     }
+    /*
     stage('Deploy in O') {
       steps {
         script {
@@ -96,5 +97,6 @@ pipeline{
         }
       }
     }
+    */
   }
 }
