@@ -4,68 +4,23 @@ def project = env.PROJECT_NAME
 
 pipeline{
   agent { label 'jos-nodejs-10' }
-    options {
-		skipDefaultCheckout()
-	}
   stages{
-    stage('Check-out Git') {
-      steps {
-        checkout scm
-        // stash workspace
-				stash(name: 'ws', includes: '**', excludes: '**/.git/**, **/node_modules/**')
-      }
-    }
-    stage ('Install Modules'){
+    stage ('Test & Build'){
       steps{
-        unstash 'ws'
         // registry setting moet in het jos-nodejs-10 image worden opgelost. 
-        // Tot die tijd even zo met een setting hier in de pipeline
+        // Tot die tijd even zo met een setting hier in de pipeline.
+        // Testen moeten met Selenium Hub gaan werken. Gaan we nog onderzoeken.
         sh '''
           npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
           npm install --verbose -d
-          npm update
+          npm run test
+          npm run lint
+          npm run prod-build
+          cp nginx/nginx.conf dist/client/.
         '''
-        stash(name: 'ws-mods', includes: '**', excludes: '**/.git/**')
-      }
-    }
-    /* Testen moeten met Selenium Hub gaan werken. Gaan we nog onderzoeken.
-    stage ('test'){
-      steps{
-        sh 'npm run test --single-run --browsers Chrome_no_sandbox'
-      }
-      post {
-          always {
-            junit "test-results.xml"
-          }
-      }
-    }
-    */
-    stage ('Code Quality'){
-      steps{
-        script {
-          if (fileExists("node_modules")) {
-            sh 'rm -rf node_modules'
-          }
-        }
-        unstash 'ws-mods'
-        sh 'npm run lint'
-      }
-    }
-
-    stage ('Create dist') {
-      steps{
-        script {
-          if (fileExists("node_modules")) {
-            sh 'rm -rf node_modules'
-          }
-        }
-        unstash 'ws-mods'
-        sh 'npm run prod-build'
-        sh 'cp nginx/nginx.conf dist/client/.'
         stash(name: 'dist', includes: 'dist/client/**')
       }
     }
-
     stage('Create Image Builder') {
       when {
         expression {
@@ -101,7 +56,6 @@ pipeline{
         }
       }
       steps {
-        unstash 'ws'
         script {
           openshift.withCluster() {
             // ruim eerst de objecten op die evt zijn blijven staan..om fout meldingen te voorkomen.
