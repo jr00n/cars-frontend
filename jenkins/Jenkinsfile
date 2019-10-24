@@ -25,6 +25,7 @@ pipeline{
           npm install --verbose -d
           npm update
         '''
+        stash(name: 'ws-mods', includes: '**', excludes: '**/.git/**')
       }
     }
     /* Testen moeten met Selenium Hub gaan werken. Gaan we nog onderzoeken.
@@ -41,14 +42,14 @@ pipeline{
     */
     stage ('Code Quality'){
       steps{
-        unstash 'ws'
+        unstash 'ws-mods'
         sh 'npm run lint'
       }
     }
 
     stage ('Create dist') {
       steps{
-        unstash 'ws'
+        unstash 'ws-mods'
         sh 'npm run prod-build'
         sh 'cp nginx/nginx.conf dist/client/.'
         stash(name: 'dist', includes: 'dist/client/**')
