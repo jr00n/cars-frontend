@@ -46,7 +46,7 @@ pipeline{
       }
     }
 
-    stage ('NPM Build') {
+    stage ('Create dist') {
       steps{
         unstash 'ws'
         sh 'npm run prod-build'
