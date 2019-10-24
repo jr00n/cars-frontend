@@ -13,7 +13,9 @@ pipeline{
         sh '''
           npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
           npm install --verbose -d
-          npm run test
+        '''
+        // sh 'npm run test'
+        sh '''
           npm run lint
           npm run prod-build
           cp nginx/nginx.conf dist/client/.
