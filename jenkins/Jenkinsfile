@@ -42,6 +42,11 @@ pipeline{
     */
     stage ('Code Quality'){
       steps{
+        script {
+          if (fileExists("node_modules") {
+            rm -rf node_modules
+          }
+        }
         unstash 'ws-mods'
         sh 'npm run lint'
       }
@@ -49,6 +54,11 @@ pipeline{
 
     stage ('Create dist') {
       steps{
+        script {
+          if (fileExists("node_modules") {
+            rm -rf node_modules
+          }
+        }
         unstash 'ws-mods'
         sh 'npm run prod-build'
         sh 'cp nginx/nginx.conf dist/client/.'
