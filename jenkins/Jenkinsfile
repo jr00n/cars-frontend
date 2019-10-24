@@ -1,13 +1,23 @@
+#!groovy
+def appName = "cars-frontend"
+def project = env.PROJECT_NAME
+
 pipeline{
   agent { label 'jos-nodejs-10' }
+    options {
+		skipDefaultCheckout()
+	}
   stages{
-    stage ('checkout'){
-      steps{
+    stage('Check-out Git') {
+      steps {
         checkout scm
+        // stash workspace
+				stash(name: 'ws', includes: '**', excludes: '**/.git/**')
       }
     }
-    stage ('install modules'){
+    stage ('Install Modules'){
       steps{
+        unstash 'ws'
         // registry setting moet in het jos-nodejs-10 image worden opgelost. 
         // Tot die tijd even zo met een setting hier in de pipeline
         sh '''
@@ -30,25 +40,95 @@ pipeline{
       }
     }
     */
-    stage ('code quality'){
+    stage ('Code Quality'){
       steps{
+        unstash 'ws'
         sh 'npm run lint'
       }
     }
-    stage ('build') {
+
+    stage ('NPM Build') {
       steps{
+        unstash 'ws'
         sh 'npm run prod-build'
+        sh 'cp nginx/nginx.conf dist/client/.'
+        stash(name: 'dist', includes: 'dist/client/**')
       }
     }
-    /*
-    stage ('build image') {
-      steps{
-        sh '''
-          rm -rf node_modules
-          oc start-build angular-5-example --from-dir=. --follow
-        '''
+
+    stage('Create Image Builder') {
+      when {
+        expression {
+          openshift.withCluster() {
+            return !openshift.selector("bc", "cars-frontend").exists();
+          }
+        }
+      }
+      steps {
+        script {
+          openshift.withCluster() {
+              openshift.newBuild("--name=cars-frontend", "--image-stream=openshift/nginx", "--binary=true")
+          }
+        }
       }
     }
-    */
+    stage('Build Image') {
+      steps {
+        unstash 'dist'
+        script {
+          openshift.withCluster() {
+            openshift.selector("bc", "cars-frontend").startBuild("--from-dir=dist/clent", "--wait=true")
+          }
+        }
+      }
+    }
+    stage('Create deploymentconfig in O') {
+      when {
+        expression {
+          openshift.withCluster() {
+            return !openshift.selector("dc", "cars-frontend").exists();
+          }
+        }
+      }
+      steps {
+        unstash 'ws'
+        script {
+          openshift.withCluster() {
+            // ruim eerst de objecten op die evt zijn blijven staan..om fout meldingen te voorkomen.
+            if (openshift.selector('dc', "${appName}").exists()) {
+              openshift.selector('dc', "${appName}").delete()
+            }
+            if (openshift.selector('svc', "${appName}").exists()) {
+              openshift.selector('svc', "${appName}").delete()
+            }
+            if (openshift.selector('route', "${appName}").exists()) {
+              openshift.selector('route', "${appName}").delete()
+            }
+            // maak op basis van deze List de benodigde objecten aan (dc,svc en route)
+            // de deployment config gebruik de applicatie image met tag 'latest'
+            // en de trigger in om te deployen bij image change staat uitgeschakeld,
+            // om dat Jekins bepaald wanneer er gedeloyed gaat worden en niet de trigger.
+
+            def fromYAML = openshift.create( readFile('openshift/cars-frontend-o.yaml'))
+            echo "Created objects from YAML file: ${fromJSON.names()}"
+          }
+        }
+      }          
+    }
+    stage('Deploy in O') {
+      steps {
+        script {
+          openshift.withCluster() {
+            def dc = openshift.selector("dc", appName)
+            dc.rollout().latest();
+            // wachten tot alle replicas beschikbaar zijn.
+            while (dc.object().spec.replicas != dc.object().status.availableReplicas) {
+                echo "Wait for all replicas are available"
+                sleep 10
+            }
+          }
+        }
+      }
+    }
   }
 }
