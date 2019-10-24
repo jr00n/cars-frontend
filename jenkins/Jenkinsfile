@@ -8,6 +8,8 @@ pipeline{
     }
     stage ('install modules'){
       steps{
+        // registry setting moet in het jos-nodejs-10 image worden opgelost. 
+        // Tot die tijd even zo met een setting hier in de pipeline
         sh '''
           npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
           npm install

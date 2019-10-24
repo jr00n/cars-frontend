@@ -7,7 +7,7 @@ items:
   kind: BuildConfig
   metadata:
     labels:
-      app: authors
+      app: cars-frontend
     name: cars-frontend-pipeline
   spec:
     postCommit: {}
@@ -19,7 +19,7 @@ items:
         uri: "ssh://git@git.belastingdienst.nl:7999/~wolfj09/cars-frontend.git"
     strategy:
       jenkinsPipelineStrategy:
-        jenkinsfilePath: Jenkinsfile
+        jenkinsfilePath: jenkins/Jenkinsfile
     triggers:
       - generic:
           secret: 9oFZQ9gNk3PZBjPbHXIB
