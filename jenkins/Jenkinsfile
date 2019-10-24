@@ -23,6 +23,7 @@ pipeline{
         sh '''
           npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
           npm install --verbose -d
+          npm update
         '''
       }
     }
@@ -75,7 +76,7 @@ pipeline{
         unstash 'dist'
         script {
           openshift.withCluster() {
-            openshift.selector("bc", "cars-frontend").startBuild("--from-dir=dist/clent", "--wait=true")
+            openshift.selector("bc", "cars-frontend").startBuild("--from-dir=dist/client", "--wait=true")
           }
         }
       }
