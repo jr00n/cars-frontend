@@ -22,16 +22,15 @@ pipeline{
         // Tot die tijd even zo met een setting hier in de pipeline
         sh '''
           npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
-          npm install
+          npm install --verbose -d
+          npm update
         '''
       }
     }
     /* Testen moeten met Selenium Hub gaan werken. Gaan we nog onderzoeken.
     stage ('test'){
       steps{
-        sh '''
-          $(npm bin)/ng test --single-run --browsers Chrome_no_sandbox
-        '''
+        sh 'npm run test --single-run --browsers Chrome_no_sandbox'
       }
       post {
           always {
