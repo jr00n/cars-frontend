@@ -46,6 +46,7 @@ items:
     test: false
     triggers:
     - imageChangeParams:
+        automatic: false
         containerNames:
         - cars-frontend
         from:
