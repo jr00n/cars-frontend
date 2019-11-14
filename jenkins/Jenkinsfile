@@ -10,9 +10,9 @@ pipeline{
         // registry setting moet in het jos-nodejs-10 image worden opgelost. 
         // Tot die tijd even zo met een setting hier in de pipeline.
         // Testen moeten met Selenium Hub gaan werken. Gaan we nog onderzoeken.
+        // npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
         sh '''
-          npm -g config set registry http://jsccnexus.ont.belastingdienst.nl/repository/npm/
-          npm install --verbose -d
+          npm install
         '''
         // sh 'npm run test'
         sh '''
