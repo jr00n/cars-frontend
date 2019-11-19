@@ -16,7 +16,7 @@ kind: Pod
 spec:
   containers:
   - name: jnlp
-    image: docker-registry.default.svc:5000/public/jenkins-jos-agent-nodejs-10:production
+    image: public/jenkins-jos-agent-nodejs-10:production
 """
     } 
   }
