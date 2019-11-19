@@ -7,7 +7,9 @@ pipeline {
     kubernetes {  
       label 'jos-nodejs-10'
       idleMinutes 20
-      alwaysPullImage true
+      containerTemplate {
+        alwaysPullImage true
+      }
       yaml """
 apiVersion: v1
 kind: Pod
