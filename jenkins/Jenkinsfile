@@ -8,6 +8,7 @@ script {
 
 pipeline {
   agent {
+    kubernetes {}
   }
   stages{
     stage ('Test & Build'){
