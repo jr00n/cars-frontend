@@ -8,7 +8,7 @@ pipeline {
       label 'jos-nodejs-10'
       idleMinutes 20
       containerTemplate {
-        alwaysPullImage true
+        alwaysPullImage 'true'
       }
       yaml """
 apiVersion: v1
@@ -16,7 +16,7 @@ kind: Pod
 spec:
   containers:
   - name: jnlp
-    image: docker-registry.default.svc:5000/public/jenkins-jos-agent-nodejs-10:production
+    image: 'docker-registry.default.svc:5000/public/jenkins-jos-agent-nodejs-10:production'
       """
     } 
   }
