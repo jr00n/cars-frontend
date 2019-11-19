@@ -14,29 +14,29 @@ pipeline {
       idleMinutes 20
       yaml """
 kind: Pod
-metadata:
+metadata: 
   name: jenkins-agent
-spec:
-  containers:
-  - name: jnlp
-    image: docker-registry.default.svc:5000/public/jenkins-jos-agent-nodejs-10:production
-    imagePullPolicy: Always
-    volumeMounts:
-      - mountPath: /home/jenkins/.npm
-        name: npmcache 
-      - mountPath: /home/jenkins/ssh-keys
-        name: jenkins-ssh-keys
-      - mountPath: /home/jenkins/.ssh
-        name: jenkins-ssh-config
-  volumes:
+spec: 
+  containers: 
+    - image: "docker-registry.default.svc:5000/public/jenkins-jos-agent-nodejs-10:production"
+      imagePullPolicy: Always
+      name: jnlp
+      volumeMounts: 
+        - mountPath: /home/jenkins/.npm
+          name: npmcache
+        - mountPath: /home/jenkins/ssh-keys
+          name: jenkins-ssh-keys
+        - mountPath: /home/jenkins/.ssh
+          name: jenkins-ssh-config
+  volumes: 
     - name: npmcache
-    persistentVolumeClaim:
-      claimName: npmcache
+      persistentVolumeClaim: 
+        claimName: npmcache
     - name: jenkins-ssh-keys
-      secret:
+      secret: 
         secretName: jenkins-ssh-keys
     - name: jenkins-ssh-config
-      secret:
+      secret: 
         secretName: jenkins-ssh-config
       """
     }
