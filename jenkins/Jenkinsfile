@@ -8,7 +8,7 @@ script {
 
 pipeline {
   agent {
-    kubernetes {}
+    openshift {}
   }
   stages{
     stage ('Test & Build'){
