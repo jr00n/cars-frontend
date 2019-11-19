@@ -11,15 +11,33 @@ pipeline {
     kubernetes {
       cloud 'openshift'
       label 'jos-nodejs-10'
+      idleMinutes 20
       yaml """
 kind: Pod
 metadata:
-  name: jenkins-slave
+  name: jenkins-agent
 spec:
   containers:
   - name: jnlp
     image: docker-registry.default.svc:5000/public/jenkins-jos-agent-nodejs-10:production
     imagePullPolicy: Always
+    volumeMounts:
+      - mountPath: /home/jenkins/.npm
+        name: npmcache 
+      - mountPath: /home/jenkins/ssh-keys
+        name: jenkins-ssh-keys
+      - mountPath: /home/jenkins/.ssh
+        name: jenkins-ssh-config
+  volumes:
+    - name: npmcache
+    persistentVolumeClaim:
+      claimName: npmcache
+    - name: jenkins-ssh-keys
+      secret:
+        secretName: jenkins-ssh-keys
+    - name: jenkins-ssh-config
+      secret:
+        secretName: jenkins-ssh-config
       """
     }
   }
