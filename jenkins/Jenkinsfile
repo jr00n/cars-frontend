@@ -2,24 +2,12 @@
 def appName = "cars-frontend"
 def project = env.PROJECT_NAME
 
+script {
+
+}
+
 pipeline {
   agent {
-    kubernetes {  
-      label 'jos-nodejs-10'
-      idleMinutes 20
-      yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: busybox
-    image: busybox
-    imagePullPolicy: Always
-    command:
-    - cat
-    tty: true
-"""
-    } 
   }
   stages{
     stage ('Test & Build'){
