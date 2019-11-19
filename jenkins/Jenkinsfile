@@ -7,16 +7,16 @@ pipeline {
     kubernetes {  
       label 'jos-nodejs-10'
       idleMinutes 20
-      containerTemplate {
-        alwaysPullImage 'true'
-      }
       yaml """
 apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: jnlp
-    image: public/jenkins-jos-agent-nodejs-10:production
+  - name: busybox
+    image: busybox
+    command:
+    - cat
+    tty: true
 """
     } 
   }
