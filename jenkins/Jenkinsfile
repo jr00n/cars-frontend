@@ -10,6 +10,17 @@ pipeline {
   agent {
     kubernetes {
       cloud 'openshift'
+      label 'jos-nodejs-10'
+      yaml """
+kind: Pod
+metadata:
+  name: jenkins-slave
+spec:
+  containers:
+  - name: jnlp
+    image: docker-registry.default.svc:5000/public/jenkins-jos-agent-nodejs-10:production
+    imagePullPolicy: Always
+      """
     }
   }
   stages{
