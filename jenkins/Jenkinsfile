@@ -4,8 +4,8 @@ def project = env.PROJECT_NAME
 
 pipeline {
   agent {
-    label 'jos-nodejs-10'
-    kubernetes {
+    kubernetes {  
+      label 'jos-nodejs-10'
       idleMinutes 20
       alwaysPullImage true
       yaml """
