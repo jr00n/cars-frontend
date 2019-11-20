@@ -15,6 +15,8 @@ metadata:
 spec: 
   containers: 
     - image: "docker-registry.default.svc:5000/public/jenkins-jos-agent-nodejs-10:production"
+      args: ${computer.jnlpmac} ${computer.name}
+      tty: false
       imagePullPolicy: Always
       name: jnlp
       volumeMounts: 
