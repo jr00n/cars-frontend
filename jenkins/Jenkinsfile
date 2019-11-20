@@ -5,6 +5,7 @@ def project = env.PROJECT_NAME
 pipeline {
   agent {
     kubernetes {
+      label 'jos-nodejs-10'
       cloud 'openshift'
       idleMinutes 20
       yaml """
