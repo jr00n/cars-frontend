@@ -2,15 +2,10 @@
 def appName = "cars-frontend"
 def project = env.PROJECT_NAME
 
-script {
-
-}
-
 pipeline {
   agent {
     kubernetes {
       cloud 'openshift'
-      label 'jos-nodejs-10'
       idleMinutes 20
       yaml """
 kind: Pod
