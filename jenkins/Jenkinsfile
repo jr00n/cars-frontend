@@ -26,6 +26,7 @@ spec:
           name: jenkins-ssh-keys
         - mountPath: /home/jenkins/.ssh
           name: jenkins-ssh-config
+  serviceAccount: jenkins
   volumes: 
     - name: npmcache
       persistentVolumeClaim: 
