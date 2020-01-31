@@ -43,8 +43,11 @@ spec:
   stages{
     stage ('Test & Build'){
       steps {  
+        //sh '''
+        //  npm install
+        //'''
         sh '''
-          npm install
+          npm ci
         '''
         // Testen moeten met Selenium Hub gaan werken. Gaan we nog onderzoeken.
         // sh 'npm run test'
