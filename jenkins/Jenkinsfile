@@ -47,6 +47,7 @@ spec:
         //  npm install
         //'''
         sh '''
+          npm install
           npm ci
         '''
         // Testen moeten met Selenium Hub gaan werken. Gaan we nog onderzoeken.
